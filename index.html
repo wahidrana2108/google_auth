@@ -15,11 +15,6 @@
 </head>
 <body><br>
     <div class="container"><br>
-        <div class="container ">
-            <input type="text" class="col-md-12 col-lg-6" name="name" id="nameInp" placeholder="Enter name">
-        </div><br>
-
-
         <div class=" d-flex justify-content-around">
             <button type="submit" id="sub_google"><ion-icon name="logo-google"></ion-icon></button>
 
@@ -32,6 +27,87 @@
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+    <!-- firebase authentication -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyBDevYMI5MwAhi_ZZcPr7Sx-5OHoyiHw5o",
+          authDomain: "authentication-d7579.firebaseapp.com",
+          projectId: "authentication-d7579",
+          storageBucket: "authentication-d7579.appspot.com",
+          messagingSenderId: "354724981494",
+          appId: "1:354724981494:web:51aa9d0bbfdf8a857edad7"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const provider = new GoogleAuthProvider(app);
+        const auth = getAuth(app);
+
+
+
+
+        sub_google.addEventListener('click', (e) => {
+
+            // redirected method
+
+            // signInWithRedirect(auth, provider);
+
+
+            // getRedirectResult(auth)
+            // .then((result) => {
+            //     // This gives you a Google Access Token. You can use it to access Google APIs.
+            //     const credential = GoogleAuthProvider.credentialFromResult(result);
+            //     const token = credential.accessToken;
+
+            //     // The signed-in user info.
+            //     const user = result.user;
+
+            //     alert(user.displayName);
+
+            // }).catch((error) => {
+            //     // Handle Errors here.
+            //     const errorCode = error.code;
+            //     const errorMessage = error.message;
+            //     // The email of the user's account used.
+            //     const email = error.customData.email;
+            //     // The AuthCredential type that was used.
+            //     const credential = GoogleAuthProvider.credentialFromError(error);
+            //     // ...
+            // });
+
+
+            // popup method
+            signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // ...
+                alert(user.displayName);
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+                alert(errorMessage);
+            });
+        })
+
+      </script>
     
 </body>
 </html>

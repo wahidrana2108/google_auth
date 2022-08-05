@@ -33,7 +33,7 @@
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup, FacebookAuthProvider  } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup, FacebookAuthProvider, GithubAuthProvider  } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 
       
         // Your web app's Firebase configuration
@@ -51,6 +51,8 @@
         const provider = new GoogleAuthProvider(app);
         const auth = getAuth(app);
         const facebookProvider  = new FacebookAuthProvider(app);
+        const githubProvider = new GithubAuthProvider();
+
 
 
 
@@ -136,6 +138,32 @@
             });
         })
 
+
+        sub_github.addEventListener('click', (e) => {
+            signInWithPopup(auth, githubProvider)
+            .then((result) => {
+                // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+                const credential = GithubAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+
+                // The signed-in user info.
+                const user = result.user;
+                // ...
+                alert(user.displayName);
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GithubAuthProvider.credentialFromError(error);
+                // ...
+                alert(error);
+            });
+
+        })
+        
       </script>
     
 </body>
